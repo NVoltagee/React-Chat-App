@@ -33,6 +33,11 @@ app.post("/users", (req, res) => {
     });
 });
 
+app.post("/authenticate", (req, res) => {
+  const { grant_type } = req.body;
+  res.json(chatkit.authenticate({ grant_type }, req.query.user_id));
+});
+
 const PORT = 3001;
 app.listen(PORT, err => {
   if (err) {
