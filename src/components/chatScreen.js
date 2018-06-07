@@ -20,10 +20,8 @@ class ChatScreen extends React.Component {
 
     chatManager
       .connect()
-      .then(currentUser => {
-        this.setState({ currentUser });
-      })
-      .catch(error => console.error("error", error));
+      .then(currentUser => console.log("currentUser", currentUser))
+      .catch(error => console.error(error));
   }
   render() {
     return (
