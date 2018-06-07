@@ -26,14 +26,13 @@ class App extends Component {
           currentScreen: "ChatScreen"
         });
       })
-      .catch(error => console.error("error", error));
+      .catch(error => console.error(error));
   }
 
   render() {
     if (this.state.currentScreen === "WhatIsYourUsernameScreen") {
       return <UsernameForm onSubmit={this.onUsernameSubmitted} />;
-    }
-    if (this.state.currentScreen === "ChatScreen") {
+    } else if (this.state.currentScreen === "ChatScreen") {
       return <ChatScreen currentUsername={this.state.currentUsername} />;
     }
   }
