@@ -9,9 +9,11 @@ class ChatScreen extends React.Component {
     this.state = {
       currentUser: {},
       currentRoom: {},
-      messages: []
+      messages: [],
+      usersWhoAreTyping: []
     };
     this.sendMessage = this.sendMessage.bind(this);
+    this.sendTypingEvent = this.sendTypingEvent.bind(this);
   }
   sendMessage(text) {
     this.state.currentUser.sendMessage({
@@ -41,6 +43,12 @@ class ChatScreen extends React.Component {
               this.setState({
                 messages: [...this.state.messages, message]
               });
+            },
+            onUserStartedTyping: user => {
+              console.log(user.name, "started typing");
+            },
+            onUserStoppedTyping: user => {
+              console.log(user.name, "stopped typing");
             }
           }
         });
@@ -48,6 +56,11 @@ class ChatScreen extends React.Component {
       .then(currentRoom => {
         this.setState({ currentRoom });
       })
+      .catch(error => console.error("error", error));
+  }
+  sendTypingEvent() {
+    this.state.currentUser
+      .isTypingIn({ roomId: this.state.currentRoom.id })
       .catch(error => console.error("error", error));
   }
 
@@ -88,7 +101,10 @@ class ChatScreen extends React.Component {
               messages={this.state.messages}
               style={styles.chatList}
             />
-            <SendMessageForm onSubmit={this.sendMessage} />
+            <SendMessageForm
+              onSubmit={this.sendMessage}
+              onChange={this.sendTypingEvent}
+            />
           </section>
         </div>
       </div>
