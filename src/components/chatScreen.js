@@ -3,6 +3,7 @@ import Chatkit from "@pusher/chatkit";
 import MessageList from "./messageList";
 import SendMessageForm from "./sendMessageForm";
 import TypingIndicator from "./typingIndicator";
+import WhosOnlineList from "./whosOnlineList";
 
 class ChatScreen extends React.Component {
   constructor(props) {
@@ -56,7 +57,10 @@ class ChatScreen extends React.Component {
                   username => username !== user.name
                 )
               });
-            }
+            },
+            onUserCameOnline: () => this.forceUpdate(),
+            onUserWentOffline: () => this.forceUpdate(),
+            onUserJoined: () => this.forceUpdate()
           }
         });
       })
@@ -102,6 +106,7 @@ class ChatScreen extends React.Component {
         <div style={styles.chatContainer}>
           <aside style={styles.whosOnlineListContainer}>
             <h2>Online People</h2>
+            <WhosOnlineList users={this.state.currentRoom.users} />
           </aside>
           <section style={styles.chatListContainer}>
             <MessageList
