@@ -2,6 +2,7 @@ import React from "react";
 import Chatkit from "@pusher/chatkit";
 import MessageList from "./messageList";
 import SendMessageForm from "./sendMessageForm";
+import TypingIndicator from "./typingIndicator";
 
 class ChatScreen extends React.Component {
   constructor(props) {
@@ -45,10 +46,16 @@ class ChatScreen extends React.Component {
               });
             },
             onUserStartedTyping: user => {
-              console.log(user.name, "started typing");
+              this.setState({
+                usersWhoAreTyping: [...this.state.usersWhoAreTyping, user.name]
+              });
             },
             onUserStoppedTyping: user => {
-              console.log(user.name, "stopped typing");
+              this.setState({
+                usersWhoAreTyping: this.state.usersWhoAreTyping.filter(
+                  username => username !== user.name
+                )
+              });
             }
           }
         });
@@ -101,6 +108,7 @@ class ChatScreen extends React.Component {
               messages={this.state.messages}
               style={styles.chatList}
             />
+            <TypingIndicator usersWhoAreTyping={this.state.usersWhoAreTyping} />
             <SendMessageForm
               onSubmit={this.sendMessage}
               onChange={this.sendTypingEvent}
