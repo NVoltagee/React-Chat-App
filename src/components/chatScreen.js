@@ -105,8 +105,10 @@ class ChatScreen extends React.Component {
       <div style={styles.container}>
         <div style={styles.chatContainer}>
           <aside style={styles.whosOnlineListContainer}>
-            <h2>Online People</h2>
-            <WhosOnlineList users={this.state.currentRoom.users} />
+            <WhosOnlineList
+              currentUser={this.state.currentUser}
+              users={this.state.currentRoom.users}
+            />
           </aside>
           <section style={styles.chatListContainer}>
             <MessageList
